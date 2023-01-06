@@ -4,5 +4,5 @@ This repository contains useful resources for the Stanford CS25 course, includin
 
 ## 01 - Introduction to Transformers
 
-- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
-- [The Annotated Transformer](http://nlp.seas.harvard.edu/annotated-transformer/)
+- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) — a visual guide to the Transformer architecture
+- [The Annotated Transformer](http://nlp.seas.harvard.edu/annotated-transformer/) — implementation notes
