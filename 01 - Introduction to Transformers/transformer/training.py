@@ -89,3 +89,8 @@ def run_epoch(
         del loss
         del loss_node
     return total_loss / total_tokens, train_state
+
+def loss(x, crit):
+    d = x + 3 * 1
+    predict = torch.FloatTensor([[0, x / d, 1 / d, 1 / d, 1 / d]])
+    return crit(predict.log(), torch.LongTensor([1])).data
