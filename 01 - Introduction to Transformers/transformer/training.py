@@ -3,13 +3,6 @@ import time
 import torch
 
 
-def subsequent_mask(size):
-    "Mask out subsequent positions."
-    attn_shape = (1, size, size)
-    subsequent_mask = torch.triu(torch.ones(attn_shape), diagonal=1).type(torch.uint8)
-    return subsequent_mask == 0
-
-
 class Batch:
     """Object for holding a batch of data with mask during training."""
 
@@ -46,7 +39,8 @@ def run_epoch(
     optimizer,
     scheduler,
     mode="train",
-    accum_iter=1,
+    accum_iter=1,  # Train in :acum_iter: batches before running gradient descent
+    log_ever=40,
     train_state=TrainState(),
 ):
     """Train a single epoch"""
@@ -59,7 +53,7 @@ def run_epoch(
         out = model.forward(batch.src, batch.tgt, batch.src_mask, batch.tgt_mask)
         loss, loss_node = loss_compute(out, batch.tgt_y, batch.ntokens)
         # loss_node = loss_node / accum_iter
-        if mode == "train" or mode == "train+log":
+        if mode == "train":
             loss_node.backward()
             train_state.step += 1
             train_state.samples += batch.src.shape[0]
@@ -74,7 +68,7 @@ def run_epoch(
         total_loss += loss
         total_tokens += batch.ntokens
         tokens += batch.ntokens
-        if i % 40 == 1 and (mode == "train" or mode == "train+log"):
+        if i % log_ever == 1 and mode == "train":
             lr = optimizer.param_groups[0]["lr"]
             elapsed = time.time() - start
             print(
@@ -90,3 +84,10 @@ def run_epoch(
         del loss_node
     return total_loss / total_tokens, train_state
 
+
+def subsequent_mask(size):
+    "Mask out subsequent positions."
+    attn_shape = (1, size, size)
+    # Upper lower triangoal matrix with ones on the lower triangle and zeros on the upper triangle and diagonal
+    subsequent_mask = torch.triu(torch.ones(attn_shape), diagonal=1).type(torch.uint8)
+    return subsequent_mask == 0
