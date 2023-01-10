@@ -25,6 +25,9 @@ def make_model(src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0
     ff = PositionwiseFeedForward(d_model, d_ff, dropout)
     # a model that adds positional encoding to the input sequence
     position = PositionalEncoding(d_model, dropout)
+
+    print(src_vocab, tgt_vocab)
+
     # Transformer is encoder-decoder architecture
     model = EncoderDecoder(
         # with 1st layer being encoder that consists of N encoder layers
