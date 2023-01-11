@@ -9,3 +9,9 @@ This is Transformer architecture chart
   - Uses Byte-Pair Encoding (BPE) instead of WordPiece tokenization
 - **DistilBERT** (Distilled BERT) uses smaller model architecture
   - Can run on a smartphone
+
+## Examples
+
+- [Use untrained transformer to reconstruct input sequences](./01-untrained.ipynb)
+- [Train a transformer to reconstruct input sequences](./02-training.ipynb)
+- [Train transformer to translate from English to German](./03-text-2-text.ipynb)
